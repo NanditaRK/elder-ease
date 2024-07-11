@@ -1,29 +1,34 @@
-// backend/routes/authRoutes.js
-export {};
-
-const express = require('express');
-const passport = require('passport');
+// backend/routes/authRoutes.ts
+import express, { Request, Response } from 'express';
+import passport from 'passport';
 
 const router = express.Router();
 
-router.get('/google', passport.authenticate('google', {
-  scope: ['profile', 'email']
-}));
+router.get(
+  '/google',
+  passport.authenticate('google', {
+    scope: ['profile', 'email'],
+  })
+);
 
-router.get('/google/callback', passport.authenticate('google', {
-  failureRedirect: '/login',
-  session: true,
-}), (req, res) => {
-  res.redirect('/');
-});
+router.get(
+  '/google/callback',
+  passport.authenticate('google', {
+    failureRedirect: '/login',
+    session: true,
+  }),
+  (req: Request, res: Response) => {
+    res.redirect('/');
+  }
+);
 
-router.get('/logout', (req, res) => {
+router.get('/logout', (req: Request, res: Response) => {
   req.logout();
   res.redirect('/');
 });
 
-router.get('/user', (req, res) => {
+router.get('/user', (req: Request, res: Response) => {
   res.send(req.user);
 });
 
-module.exports = router;
+export default router;
